@@ -1,0 +1,68 @@
+@import "/lib/material/material-components-web.min.css";
+@import "https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200";
+
+@keyframes fill-in {
+  from {
+    font-variation-settings: 'FILL' 0;
+  }
+  to {
+    font-variation-settings: 'FILL' 1;
+  }
+}
+
+.icon {
+  font-family: 'Material Symbols Rounded', sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 48  
+}
+
+.icon:hover,a:hover .icon{
+  animation: fill-in 0.5s 1;
+  animation-fill-mode: forwards;
+}
+
+body{
+	margin:0px;
+	font-family:sans-serif;display: flex;
+	height: 100vh;
+	--mdc-theme-primary: #1565c0;
+	--mdc-theme-secondary: #26a69a;
+}
+
+.mdc-drawer-app-content {
+	flex: auto;
+	overflow: auto;
+	position: relative;
+}
+
+.main-content {
+	overflow: auto;
+	height: 100%;
+}
+
+.app-bar {
+	position: absolute;
+}
+
+main{
+	margin-left: 3em;
+}
+
+.mdc-card{
+	padding: 16px;
+	margin-right: 32px;
+	margin-top: 32px;
+}

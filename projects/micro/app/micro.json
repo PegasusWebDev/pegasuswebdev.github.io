@@ -1,0 +1,13 @@
+{
+  "description": "An abstract web game using only geometric shapes.",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "https://cdn.glitch.global/e78bfab2-2ff2-4853-bc78-2a1f4fd1f0ab/micro_favicon.png?v=1667393452298",
+      "sizes": "any"
+    }
+  ],
+  "name": "Micro",
+  "scope": "/projects/micro/app",
+  "start_url": "/projects/micro/app"
+}

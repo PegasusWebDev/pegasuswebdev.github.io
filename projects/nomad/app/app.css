@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Monoton&display=swap');
+
+body {
+  font-family: monospace;
+  margin: 0;
+  height:100vh;
+  width: 100%;
+}
+main {
+  width: 100%;
+  height: 100%;
+}
+#menu {
+  background-color: black;
+  text-align: center;
+  color: white;
+}
+#menu h1 {
+  margin: 0;
+  margin-top: 2rem;
+  font-size: 6rem;
+  min-width: 50%;
+  display:inline-block;
+  background-color: white;
+  color: black;
+  border-radius: 1rem;
+  font-family: 'Monoton', monospace;
+  font-weight: normal;
+  text-shadow: 1.25px .5px .75px rgba(0,0,0,0.5);
+  user-select: none;
+}
+#menu h1 img {
+  width: 8rem;
+  height: 8rem;
+  transform: translate(0, 15%);
+}
+#menu .button-row {
+  margin: 0;
+  margin-top: 2rem;
+  font-size: 4rem;
+  min-width: 80%;
+  display:inline-block;
+  background-color: lightgray;
+  color: black;
+  border-radius: 1rem;
+  font-family: 'Monoton', monospace;
+  user-select: none;
+}
+#menu .button-row button {
+  margin: 1rem;
+  background-color: white;
+  color: black;
+  border-radius: 1rem;
+  user-select: none;
+  min-height: 100% !important;
+  width: fit-content;
+  padding: 1rem;
+}

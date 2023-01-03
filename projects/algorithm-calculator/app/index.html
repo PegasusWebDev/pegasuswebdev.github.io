@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Algorithm Calculator - App</title>
+	<link rel="icon" href="https://cdn.glitch.global/e78bfab2-2ff2-4853-bc78-2a1f4fd1f0ab/algorithm-calculator-icon.png?v=1653264428738">
+</head>
+<body><style>h1, h2, h3, h4, h5, h6 {
+	text-align:center;
+}
+a {
+	color:#fff;
+	text-decoration:underline dashed #D3D3D3;
+}
+.button {
+	color:#FFF;
+	background-color:#00042B;
+	border:2px solid #fff;
+	padding:5px;
+	cursor:pointer;
+}</style>
+<script src="/lib/jquery/jquery-3.6.0.min.js"></script>
+<script src="/projects/algorithm-calculator/app/jMath.js"></script>
+<script src="/projects/algorithm-calculator/app/calc.js"></script>
+	<div id="calc-settings"><fieldset>
+		<legend>Calculation Type:</legend>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select id="calc-type">
+			<option disabled selected value="N/A">Choose a calculation type</option>
+			<option value="sum-basic">Addtion</option>
+			<option value="difference-basic">Subtraction</option>
+			<option value="product-basic">Mulltiplication</option>
+			<option value="quotient-basic">Division - Coming Soon!</option>
+		</select>
+		<button id="clear" class="button">Clear</button>
+	</fieldset>
+	<fieldset style="display:none;" id="params"></fieldset></div>
+	<canvas id="calc-canvas" style="background-color:#fff" height="500"></canvas>
+	<div id="button-div" style="display:none;"><button class="button" id="next">Next &gt;</button>&nbsp;&nbsp;<button class="button" id="skip">Skip to Solution &gt;</button></div>
+</body>
+</html>
