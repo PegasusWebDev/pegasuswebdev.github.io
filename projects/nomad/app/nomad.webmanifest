@@ -1,0 +1,13 @@
+{
+  "description": "A web game in which you explore a procedurally-generated zone, stay for a short period while you drain it of resources, and move on to the next.",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "https://cdn.glitch.global/e78bfab2-2ff2-4853-bc78-2a1f4fd1f0ab/nomad_favicon.png?v=1665707625913",
+      "sizes": "any"
+    }
+  ],
+  "name": "Nomad",
+  "scope": "/projects/nomad/app",
+  "start_url": "/projects/nomad/app"
+}

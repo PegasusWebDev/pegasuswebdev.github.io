@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link rel="icon" href="https://cdn.glitch.global/e78bfab2-2ff2-4853-bc78-2a1f4fd1f0ab/favicon.svg?v=1666218984975">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+		<link rel="stylesheet" href="/pegasusui.css">
+		<script src="/lib/material/material-components-web.min.js"></script>
+    <script src="/lib/jquery/jquery-3.6.0.min.js"></script>
+		<script type="module" src="/pegasusui.js"></script>
+		<title>Pegasus Web File System - Docs</title>
+	</head>
+	<body>
+    <div id="navbarload"></div>
+		<div class="mdc-drawer-app-content">
+			<m-topbar data-left-icons="menu,nav"></m-topbar>
+			<main class="mdc-top-app-bar--fixed-adjust">
+				<h1>Pegasus Web File System</h1>
+        <p>
+          Welcome to Pegasus Web File System, a very simplistic file access library for the vanilla web.
+        </p>
+        <h2>Getting Started</h2>
+        <p>
+          First, <a download href="/libraries/pwfs/pwfs.mjs">download the PWFS library</a> and import it in your JavaScript as such (ensure script type is set to "module"):
+        </p>   
+<pre>
+import fs from './lib/pwfs.mjs' //or wherever you put the file
+</pre>
+        <p>
+          Now, JavaScript can't access every file on your computer for security reasons, so you'll have to <b><a href="#fs">access</a> a <a href="#scope">scope</a></b>.
+        </p>
+        <p>
+          PWFS does everything using asynchronous code, so we recommend wrapping everything in an async function to prevent promise hell:
+        </p>
+<pre>
+import fs from './lib/pwfs.mjs'
+(async ()=&gt;{
+  let scope = await fs('scope-name')
+}))()
+</pre>
+        <p>
+          You can name your scope whatever you like, and the user will be given a dialog to select what folder you will get access to. It will then be stored under this name so the user does not have to select this every time (though the browser may ask for permission again).
+        </p>
+        <p>
+          Now that you have a scope, you can read, write, create, and delete files inside of it. Here's an example of what you can do (for more details, scroll down to the detailed API). 
+        </p>
+<pre>
+let folder = await scope.find('logs');
+if(folder === null) folder = await scope.create('folder', 'logs');
+let children = await folder.children(), content = ''
+for (var i in children){
+  content += children[i].name+': \n'+await children[i].read()+'\n'
+  children[i].delete()
+}
+let log = await folder.create('file', 'alllogscombined.txt')
+log.write(content);
+</pre>
+        <p>
+          This code will combine all files in the 'logs' subfolder into one 'alllogscombined.txt' file.
+        </p>
+        <hr>
+        <h2>
+          API
+        </h2>
+        <h3 id="fs">
+          async fs(string or FileSystemDirectoryHandle from) - returns <a href="#scope">Scope</a>
+        </h3>
+        <p>
+          The default export of the library, requests a scope from storage or the user, by the passed name. i.e. <code>await fs('scope-name')</code> or makes that scope from a passed handle.
+        </p>
+        <h3 id="scope">
+          class Scope extends <a href="#folder">FSFolder</a>
+        </h3>
+        <p>
+          A folder the user has explicitly given access to, a root of operations in the program. Multiple Scopes can exist, but files can only be modified that are children of this Scope.
+        </p>
+        <h4>
+          async Scope.prototype.pathOf(<a href="#folder">FSFolder</a>|<a href="#file">FSFile</a> file) - returns string
+        </h4>
+        <p>
+          Finds the path of the folder or file relative to the scope, i.e. <code>"path/to/file.txt"</code>
+        </p>
+        <h3 id="folder">
+          class FSFolder
+        </h3>
+        <p>
+          A directory in the user's file system. Acts as a wrapper to <a href="https://developer.mozilla.org/en-US/docs/Web/API/FileSystemDirectoryHandle">FileSystemDirectoryHandle</a>s.
+        </p>
+        <h4>
+          string FSFolder.prototype.kind = "directory"
+        </h4>
+        <h4>
+          <a href="https://developer.mozilla.org/en-US/docs/Web/API/FileSystemDirectoryHandle">FileSystemDirectoryHandle</a> FSFolder.handle
+        </h4>
+        <p>
+          The vanilla JavaScript directory object.
+        </p>
+        <h4>
+          string FSFolder.prototype.name
+        </h4>
+        <p>
+          The name of the folder, i.e. <code>"logs"</code>
+        </p>
+        <h4>
+          <a href="#scope">Scope</a> FSFolder.prototype.scope
+        </h4>
+        <p>
+          The scope this folder was accessed from.
+        </p>
+        <h4>
+          FSFolder FSFolder.prototype.parent
+        </h4>
+        <p>
+          The parent of this folder, or undefined if this is the scope.
+        </p>
+        <h4>
+          async FSFolder.prototype.find(string path) - returns FSFolder or <a href="#file">FSFile</a>
+        </h4>
+        <p>
+          Finds the file or folder using a relative path, i.e. <code>await folder.find('subfolder/file.json')</code>
+        </p>
+        <h4>
+          async FSFolder.prototype.children() - returns Object of FSFolders or <a href="#file">FSFile</a>s
+        </h4>
+        <p>
+          Returns an array of the direct children of the folder as FSFolder or FSFile objects. The keys are the file/folder names.
+        </p>
+        <h4>
+          async FSFolder.prototype.tree() - returns recursive Object of FSFolders or <a href="#file">FSFile</a>s
+        </h4>
+        <p>
+          Same as FSFolder.children(), but folders (including the return value root) are represented as <code>{folder: FSFolder, children: {...}}</code> and recursively return their children.
+        </p>
+<pre>
+{
+  folder: FSFolder,
+  children: {
+    "foo.txt": FSFile,
+    "bar.txt": FSFile,
+    other: {
+      folder: FSFolder,
+      children: {
+        "baz.txt": FSFile,
+        "yay.txt": FSFile
+      }
+    }
+  }
+}
+</pre>
+        <h4>
+          async FSFolder.prototype.create('file'|'folder', string name) - returns <a href="#file">FSFile</a> or FSFolder
+        </h4>
+        <p>
+          Creates a file or folder (based on the first parameter) in this folder with the name specified and returns it, i.e. <code>await folder.create('file', 'index.html')</code>
+        </p>
+        <h4>
+          async FSFolder.prototype.delete()
+        </h4>
+        <p>
+          Deletes the folder this object is associated with.
+        </p>
+        <h3 id="file">
+          class FSFile
+        </h3>
+        <p>
+          A file in the user's file system. Acts as a wrapper to <a href="https://developer.mozilla.org/en-US/docs/Web/API/FileSystemFileHandle">FileSystemFileHandle</a>s.
+        </p>
+        <h4>
+          string FSFile.prototype.kind = "file"
+        </h4>
+        <h4>
+          <a href="https://developer.mozilla.org/en-US/docs/Web/API/FileSystemFileHandle">FileSystemFileHandle</a> FSFile.handle
+        </h4>
+        <p>
+          The vanilla JavaScript file handle object. This is <b>not</b> a File object (the one that extends Blob)
+        </p>
+        <h4>
+          string FSFile.prototype.name
+        </h4>
+        <p>
+          The name of the file, i.e. <code>"logs.txt"</code>
+        </p>
+        <h4>
+          <a href="#scope">Scope</a> FSFile.prototype.scope
+        </h4>
+        <p>
+          The scope this file was accessed from.
+        </p>
+        <h4>
+          <a href="#folder">FSFolder</a> FSFile.prototype.parent
+        </h4>
+        <p>
+          The parent folder of this file.
+        </p>
+        <h4>
+          async FSFile.prototype.read() - returns text
+        </h4>
+        <p>
+          Returns the contents of the file as text.
+        </p>
+        <h4>
+          async FSFile.prototype.write(string content)
+        </h4>
+        <p>
+          Sets the contents of the file on the disk to the passed content.
+        </p>
+        <h4>
+          async FSFile.prototype.delete()
+        </h4>
+        <p>
+          Deletes the file this object is associated with.
+        </p>
+        <h3>
+          async get(name) - returns Scope
+        </h3>
+        <p>
+          Used internally to get a scope from storage. It only works if the scope is in storage, and is exported separately.
+        </p>
+        <h3>
+          async update(item)
+        </h3>
+        <p>
+          Used internally to add a scope to storage. It is exported separately.
+        </p>
+        <h3>
+          async pick(name)
+        </h3>
+        <p>
+          Used internally to open a picker for the user to grant access to a scope. It then adds it to storage using update. It is exported separately.
+        </p>
+			</main>
+		</div>
+	</body>
+</html>

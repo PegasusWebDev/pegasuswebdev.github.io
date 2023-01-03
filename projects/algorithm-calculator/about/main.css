@@ -1,0 +1,21 @@
+.hidden{
+	display:none;
+}
+.definition{
+	cursor:help;
+	text-decoration:underline dotted black;
+}
+.accord_header{
+	cursor:pointer;
+	text-decoration:none;
+  color:#1565c0;
+}
+.accord_header:visited{
+  color:#1565c0;
+}
+.accord_header:hover,.accord_header:visited:hover{
+	color:#26a69a;
+}
+.plus,.minus{
+  vertical-align:sub;
+}
